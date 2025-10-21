@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Area Paling Menguntungkan untuk Listing Airbnb di Bangkok (Analisis Data)</title>
+  <meta name="description" content="Analisis data listing Airbnb di Bangkok: wilayah paling menguntungkan berdasarkan kombinasi harga dan okupansi, lengkap dengan rekomendasi strategi pricing, operasional, dan pemasaran.">
+  <meta name="keywords" content="Airbnb,Bangkok,Analisis Data,Occupancy Rate,Dynamic Pricing,Revenue Index,Properti,Pariwisata,Thailand">
+  <meta property="og:title" content="Area Paling Menguntungkan untuk Listing Airbnb di Bangkok (Analisis Data)">
+  <meta property="og:description" content="Wilayah paling menguntungkan untuk Airbnb di Bangkok: Vadhana, Huai Khwang, Pathum Wan, Samphanthawong. Disertai metodologi dan rekomendasi berbasis data.">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="id_ID">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    :root{
+      --bg:#0f172a;        /* slate-900 */
+      --panel:#111827;     /* gray-900 */
+      --ink:#e5e7eb;       /* gray-200 */
+      --muted:#9ca3af;     /* gray-400 */
+      --accent:#38bdf8;    /* sky-400 */
+      --accent2:#34d399;   /* emerald-400 */
+      --accent3:#f59e0b;   /* amber-500 */
+      --accent4:#f472b6;   /* pink-400 */
+    }
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif; margin:0; background:var(--bg); color:var(--ink); line-height:1.65}
+    a{color:var(--accent)}
+    .wrap{max-width: 920px; margin: 0 auto; padding: 48px 20px}
+    header h1{font-size: clamp(28px,3.6vw,40px); line-height:1.2; margin:0 0 6px}
+    header p.kicker{color: var(--accent); text-transform: uppercase; letter-spacing:.12em; font-weight:700; margin: 0 0 8px}
+    header .meta{color:var(--muted); font-size:14px; margin-top:8px}
+    h2{font-size: clamp(22px,2.6vw,30px); margin-top:42px}
+    h3{font-size: clamp(18px,2.2vw,22px); margin-top:28px}
+    p{margin: 10px 0 18px}
+    .card{background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:20px; margin:18px 0}
+    .grid{display:grid; grid-template-columns: 1fr; gap:16px}
+    @media (min-width: 820px){ .grid-2{grid-template-columns: 1fr 1fr} .grid-3{grid-template-columns: repeat(3,1fr)} }
+    .kbd{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background:#0b1022; border:1px solid rgba(255,255,255,.08); padding:.2em .45em; border-radius:6px}
+    .stat{display:flex; align-items:center; justify-content:space-between; padding:12px 14px; background:#0b1022; border-radius:12px; border:1px solid rgba(255,255,255,.08); margin:10px 0}
+    .stat span{font-weight:700}
+    .note{font-size:14px; color:var(--muted)}
+    .taglist{display:flex; flex-wrap:wrap; gap:10px; margin-top:8px}
+    .tag{background:#0b1022; border:1px solid rgba(255,255,255,.08); padding:6px 10px; border-radius:999px; font-size:13px; color:var(--muted)}
+    /* Infographic blocks */
+    .ig{background:#0b1022; border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:18px}
+    .bar{height:12px; border-radius:999px; background: linear-gradient(90deg, var(--accent), var(--accent2));}
+    .bar2{height:12px; border-radius:999px; background: linear-gradient(90deg, var(--accent3), var(--accent4));}
+    .row{display:grid; grid-template-columns: 160px 1fr; gap:10px; align-items:center; margin:10px 0}
+    .row b{white-space:nowrap}
+    .callout{border-left:4px solid var(--accent2); padding:10px 14px; background:#0b1022; border-radius:8px; border:1px solid rgba(255,255,255,.08)}
+    footer{margin-top:42px; padding-top:24px; border-top:1px dashed rgba(255,255,255,.12); color:var(--muted)}
+    code{background:#0b1022; padding:2px 6px; border-radius:6px; border:1px solid rgba(255,255,255,.08)}
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Area Paling Menguntungkan untuk Listing Airbnb di Bangkok (Analisis Data)",
+    "inLanguage": "id-ID",
+    "author": {"@type":"Person","name":"Ganjar Raharja"},
+    "about": ["Airbnb","Bangkok","Analisis Data","Dynamic Pricing","Occupancy Rate","Revenue Index"],
+    "datePublished": "2025-10-21",
+    "publisher": {"@type":"Organization","name":"Medium"},
+    "mainEntityOfPage": {"@type":"WebPage","@id":"https://medium.com/"}
+  }
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <p class="kicker">Studi Kasus • Airbnb Bangkok</p>
+      <h1>Menemukan Area Paling Menguntungkan di Bangkok untuk Listing Airbnb</h1>
+      <p>Ringkasan data-driven mengenai wilayah terbaik berdasarkan <i>price</i> dan <i>occupancy rate</i>, berikut rekomendasi strategi untuk tim operasional, pricing, dan pemasaran.</p>
+      <div class="meta">Ditulis oleh <b>Ganjar Raharja</b> • JCBDAH-003 Purwadhika • 21 Oktober 2025</div>
+      <div class="taglist">
+        <span class="tag">Airbnb</span><span class="tag">Bangkok</span><span class="tag">Data Analytics</span>
+        <span class="tag">Dynamic Pricing</span><span class="tag">Occupancy</span><span class="tag">Revenue Index</span>
+      </div>
+    </header>
+
+    <section>
+      <h2>Mengapa Bangkok?</h2>
+      <p>Bangkok adalah pasar yang hidup bagi Airbnb: kombinasi arus wisata, ekspatriat, dan pertumbuhan properti menghadirkan ribuan peluang listing. Pertanyaannya: <b>area mana yang paling menguntungkan</b> jika kita menimbang harga dan tingkat keterisian sekaligus?</p>
+      <div class="callout"><b>Pernyataan masalah:</b> “Area mana di Bangkok yang paling menguntungkan berdasarkan kombinasi <i>price</i> dan <i>occupancy</i>?”</div>
+    </section>
+
+    <section>
+      <h2>Dari Data ke Insight</h2>
+      <p>Dataset berisi <b>15.854 listing</b> dengan fitur utama seperti <i>price</i>, <i>availability_365</i>, tipe kamar, dan koordinat lokasi. Setelah pembersihan duplikasi dan penyaringan geografis ke dalam batas administratif kota Bangkok, kami menambahkan metrik inti: <code>occupancy_rate = (365 - availability_365) / 365</code>.</p>
+      <div class="card grid grid-2">
+        <div>
+          <h3>Langkah Pembersihan</h3>
+          <ul>
+            <li>Hapus duplikasi berdasarkan ID listing.</li>
+            <li>Filter koordinat ke dalam rentang resmi kota Bangkok.</li>
+            <li>Tangani outlier <i>price</i> dengan metode IQR.</li>
+            <li>Tambahkan kolom <code>occupancy_rate</code> sebagai indikator keterisian.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Catatan Metodologi</h3>
+          <p>Pembersihan outlier menggunakan rumus IQR klasik (<i>Q3 − Q1</i>). Visual distribusi dan hasil di artikel ini merupakan ringkasan agregat dari analisis tersebut.</p>
+          <p class="note">Sumber data: dokumen “Airbnb Bangkok Optimal Listing” (analisis internal).</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Gambaran Pasar</h2>
+      <div class="grid grid-2">
+        <div class="ig">
+          <h3>Distribusi Tipe Kamar</h3>
+          <div class="row"><b>Entire home/apartment</b><div class="bar" style="width:56.1%"></div></div>
+          <div class="row"><b>Private room</b><div class="bar2" style="width:36.5%"></div></div>
+          <div class="row"><b>Hotel room</b><div class="bar" style="width:3.8%"></div></div>
+          <div class="row"><b>Shared room</b><div class="bar2" style="width:3.6%"></div></div>
+          <p class="note">Dominasi entire home/apartment ⇒ pasar cenderung keluarga/ekspatriat.</p>
+        </div>
+        <div class="ig">
+          <h3>Area dengan Listing Terbanyak (indikatif)</h3>
+          <div class="row"><b>Vadhana</b><div class="bar" style="width:92%"></div></div>
+          <div class="row"><b>Khlong Toei</b><div class="bar2" style="width:88%"></div></div>
+          <div class="row"><b>Ratchathewi</b><div class="bar" style="width:70%"></div></div>
+          <div class="row"><b>Huai Khwang</b><div class="bar2" style="width:66%"></div></div>
+          <div class="row"><b>Sathon</b><div class="bar" style="width:60%"></div></div>
+          <p class="note">Proporsi bersifat ringkasan visual (non-skala). Urutan sesuai temuan inti.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Harga vs Okupansi</h2>
+      <div class="grid grid-2">
+        <div class="ig">
+          <h3>Harga Tertinggi per Area (rata-rata)</h3>
+          <div class="row"><b>Pathum Wan</b><div class="bar" style="width:100%"></div></div>
+          <div class="row"><b>Bang Rak</b><div class="bar2" style="width:88%"></div></div>
+          <div class="row"><b>Vadhana</b><div class="bar" style="width:86%"></div></div>
+          <div class="row"><b>Samphanthawong</b><div class="bar2" style="width:78%"></div></div>
+          <div class="row"><b>Khlong Toei</b><div class="bar" style="width:76%"></div></div>
+          <p class="note">Patokan relatif berbasis ringkasan studi; Pathum Wan premium (~฿2.150/malam).</p>
+        </div>
+        <div class="ig">
+          <h3>Okupansi Tertinggi per Area</h3>
+          <div class="row"><b>Huai Khwang</b><div class="bar" style="width:100%"></div></div>
+          <div class="row"><b>Vadhana</b><div class="bar2" style="width:87%"></div></div>
+          <div class="row"><b>Samphanthawong</b><div class="bar" style="width:85%"></div></div>
+          <div class="row"><b>Khlong Toei</b><div class="bar2" style="width:82%"></div></div>
+          <div class="row"><b>Wang Thong Lang</b><div class="bar" style="width:80%"></div></div>
+          <p class="note">Huai Khwang ~45% okupansi; Vadhana &amp; Samphanthawong ~38–39%.</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Temuan Kunci</h3>
+        <ul>
+          <li>Tidak ada korelasi positif yang kuat antara harga dan okupansi.</li>
+          <li>Segmen harga menengah (±฿500–2.000) sering mencapai okupansi tinggi (&gt;80%).</li>
+          <li>Listing premium (&gt;฿4.000) cenderung <i>niche</i> dan variatif okupansinya.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Revenue Index (Price × Occupancy)</h2>
+      <div class="ig">
+        <div class="row"><b>Vadhana</b><div class="bar" style="width:100%"></div></div>
+        <div class="row"><b>Samphanthawong</b><div class="bar2" style="width:92%"></div></div>
+        <div class="row"><b>Huai Khwang</b><div class="bar" style="width:86%"></div></div>
+        <div class="row"><b>Khlong Toei</b><div class="bar2" style="width:78%"></div></div>
+        <div class="row"><b>Pathum Wan</b><div class="bar" style="width:72%"></div></div>
+        <p class="note">Menggabungkan harga &amp; okupansi untuk memetakan potensi pendapatan.</p>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Berdasarkan Tipe Kamar</h3>
+          <div class="stat"><span>Entire home/apartment</span><em>Teratas (harga &amp; okupansi tinggi)</em></div>
+          <div class="stat"><span>Hotel room</span><em>Harga tinggi, okupansi rendah</em></div>
+          <div class="stat"><span>Private room</span><em>Stabil, cocok host pemula</em></div>
+          <div class="stat"><span>Shared room</span><em>Skala volume</em></div>
+        </div>
+        <div class="card">
+          <h3>Implikasi</h3>
+          <p>Fokuskan portofolio ke <b>entire home/apartment</b> di area efisien (Vadhana, Huai Khwang). Untuk wilayah premium seperti Pathum Wan, gunakan strategi harga adaptif.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Rekomendasi Strategis</h2>
+      <div class="grid grid-3">
+        <div class="card">
+          <h3>Operasional Regional</h3>
+          <ul>
+            <li>Prioritaskan Vadhana &amp; Huai Khwang sebagai model efisiensi.</li>
+            <li>Dashboard mingguan: <i>price</i>, <i>occupancy</i>, <i>revenue index</i>.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Pricing</h3>
+          <ul>
+            <li>Dynamic pricing: premium −5% (uji A/B) untuk dorong okupansi.</li>
+            <li>Mid-range: pertahankan harga, optimalkan ulasan &amp; SLA respons.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Host Relations</h3>
+          <ul>
+            <li>Workshop “Harga Optimal Berbasis Data Wilayah”.</li>
+            <li>Notifikasi otomatis untuk listing di bawah median wilayah.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Analytics</h3>
+          <ul>
+            <li>Dashboard interaktif (Power BI/Tableau) untuk tren &amp; indeks.</li>
+            <li>Forecast musiman &amp; alert anomali (&gt;20% dari baseline).</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Marketing</h3>
+          <ul>
+            <li>Kampanye geo-targeted “Stay Smart in Bangkok”.</li>
+            <li>Partnership event &amp; travel untuk area low-occupancy.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout"><b>Simulasi:</b> Kenaikan harga 10% + peningkatan okupansi 7% ⇒ potensi kenaikan revenue agregat <b>~15–20%</b> dalam 1 tahun (indikatif).</div>
+    </section>
+
+    <footer>
+      <p>Ditulis oleh <b>Ganjar Raharja</b> • Purwadhika Digital Talent School — JCBDAH 003</p>
+      <p class="note">Artikel ini merangkum dokumen analisis internal “Airbnb Bangkok Optimal Listing”.</p>
+      <p class="note">Tag SEO: Airbnb, Bangkok, Data Analytics, Dynamic Pricing, Occupancy Rate, Revenue Index, Properti, Pariwisata, Thailand</p>
+    </footer>
+  </div>
+</body>
+</html>
